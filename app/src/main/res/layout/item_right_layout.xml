@@ -19,22 +19,22 @@
                     android:src="@drawable/simpsons_placeholder"
                     android:layout_width="50dp"
                     android:layout_height="100dp"
-                    android:layout_gravity="left"
-                    android:scaleType="fitXY" />
+                    android:layout_gravity="right"
+                    android:scaleType="fitXY"/>
             <TextView
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
                     android:id="@+id/character_text"
                     android:text="Character"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="left"/>
+                    android:gravity="left" />
             <TextView
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                     android:text="Quote"
                     android:id="@+id/quote_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="left" />
+                    android:gravity="left"/>
         </LinearLayout>
     </android.support.v7.widget.CardView>
 

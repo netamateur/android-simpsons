@@ -5,18 +5,30 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
-import java.io.File
+import com.squareup.picasso.Picasso
 
-class QuoteAdaptor(val quoteList: List<Quote>) : RecyclerView.Adapter<QuoteAdaptor.ViewHolder>() {
+
+class QuoteAdaptor(private var quoteList: List<Quote>, private val context: Context) : RecyclerView.Adapter<QuoteAdaptor.ViewHolder>() {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder?.txtName?.text = quoteList[position].character
-        holder?.txtQuote?.text = quoteList[position].quote
+
+        holder.txtName.text = quoteList[position].character
+        holder.txtQuote.text = quoteList[position].quote
+
+        Picasso.with(this.context).load(quoteList[position].image)
+            .placeholder(R.drawable.simpsons_placeholder)
+            .fit()
+            .into(holder.charImage)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val v = LayoutInflater.from(parent?.context).inflate(R.layout.item_layout, parent, false)
+
+        val v = when (viewType) {
+            TYPE_LEFT -> LayoutInflater.from(parent?.context).inflate(R.layout.item_layout, parent, false)
+            else -> LayoutInflater.from(parent?.context).inflate(R.layout.item_right_layout, parent, false)
+        }
         return ViewHolder(v)
     }
 
@@ -24,10 +36,22 @@ class QuoteAdaptor(val quoteList: List<Quote>) : RecyclerView.Adapter<QuoteAdapt
         return quoteList.size
     }
 
-    class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
+    override fun getItemViewType(position: Int): Int {
+        return when (quoteList[position].direction) {
+            "Left" -> TYPE_LEFT
+            else -> TYPE_RIGHT
+        }
+    }
+
+    class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         val txtName = itemView.findViewById<TextView>(R.id.character_text)!!
         val txtQuote = itemView.findViewById<TextView>(R.id.quote_text)!!
+        val charImage = itemView.findViewById<ImageView>(R.id.image)!!
+    }
 
+    companion object {
+        const val TYPE_LEFT = 0
+        const val TYPE_RIGHT = 1
     }
 
 }
