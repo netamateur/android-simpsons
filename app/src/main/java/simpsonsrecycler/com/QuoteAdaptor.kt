@@ -26,8 +26,8 @@ class QuoteAdaptor(private var quoteList: List<Quote>, private val context: Cont
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
         val v = when (viewType) {
-            TYPE_LEFT -> LayoutInflater.from(parent?.context).inflate(R.layout.item_layout, parent, false)
-            else -> LayoutInflater.from(parent?.context).inflate(R.layout.item_right_layout, parent, false)
+            TYPE_LEFT -> LayoutInflater.from(parent.context).inflate(R.layout.item_left_layout, parent, false)
+            else -> LayoutInflater.from(parent.context).inflate(R.layout.item_right_layout, parent, false)
         }
         return ViewHolder(v)
     }
@@ -38,7 +38,7 @@ class QuoteAdaptor(private var quoteList: List<Quote>, private val context: Cont
 
     override fun getItemViewType(position: Int): Int {
         return when (quoteList[position].direction) {
-            "Left" -> TYPE_LEFT
+            ViewDirection.VIEW_LEFT.direction -> TYPE_LEFT
             else -> TYPE_RIGHT
         }
     }

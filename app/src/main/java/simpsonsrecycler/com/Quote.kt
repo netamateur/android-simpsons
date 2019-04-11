@@ -8,3 +8,8 @@ data class Quote(
     @SerializedName("image") val image: String,
     @SerializedName("characterDirection") val direction: String
 )
+
+enum class ViewDirection (val direction: String) {
+    VIEW_LEFT("Left"),
+    VIEW_RIGHT("Right")
+}
