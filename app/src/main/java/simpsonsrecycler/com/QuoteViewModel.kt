@@ -35,5 +35,3 @@ class QuoteViewModel : ViewModel() {
 }
 
 
-data class QuoteList(val quotes: List<Quote>, val message: String)
-
