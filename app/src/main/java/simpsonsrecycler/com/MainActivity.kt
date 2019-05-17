@@ -1,24 +1,28 @@
 package simpsonsrecycler.com
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
-import android.support.v7.app.AppCompatActivity
+
+import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.View
-import android.widget.LinearLayout
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
 
-    val viewModel: QuoteViewModel by lazy {
-        ViewModelProviders.of(this).get(QuoteViewModel::class.java)
-    }
+    private lateinit var viewModel: QuoteViewModel
+//    val viewModel: QuoteViewModel by lazy {
+//        ViewModelProviders.of(this).get(QuoteViewModel::class.java)
+//    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        viewModel = ViewModelProviders.of(this).get(QuoteViewModel::class.java)
 
         val fab: View = findViewById(R.id.fab)
         fab.setOnClickListener { view ->
@@ -26,10 +30,13 @@ class MainActivity : AppCompatActivity() {
         }
 
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
-        recyclerView.layoutManager = LinearLayoutManager(this, LinearLayout.VERTICAL, false)
+        val adapter = QuoteAdaptor(emptyList(), this)
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager = LinearLayoutManager(this)
 
         viewModel.loadData()
-        viewModel.q.observe(this, Observer{ quotes ->
+
+        viewModel.q.observe(this, Observer<List<Quote>> { quotes ->
             recyclerView.adapter = QuoteAdaptor(quotes?: listOf(), this)
         })
 
